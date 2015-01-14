@@ -6,7 +6,7 @@ defmodule Puxir do
       {:_, [
         {"/", :cowboy_static, {:priv_file, :puxir, "index.html"}},
         {"/timeline/:id", TimelineHandler, []},
-        {"/websocket", WsHandler, []},
+        {"/websocket", WebsocketHandler, []},
         ]
       }
     ])
