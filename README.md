@@ -1,4 +1,3 @@
-Puxir
-=====
+# puxir
 
-** TODO: Add description **
+Elixir backend for pusher.com. Education purpose only
