@@ -6,16 +6,13 @@ defmodule WebsocketHandler do
   end
 
   def websocket_init(_transport_name, req, _opts) do
-    socket_id = UUID.uuid4
-    :gproc.reg({ :p, :l, { :app, :sockets, socket_id }})
-    { :ok, message } = JSX.encode(%{"event" => "pusher:connection_established", "data" => %{ "activity_timeout" => "12", "socket_id" => socket_id }})
-    send self(), message
+    Puxir.Subscriber.init
     {:ok, req, :undefined_state }
   end
 
   def websocket_handle({:text, content}, req, state) do
     { :ok, json } = JSX.decode(content)
-    {:reply, {:text, handle_event(json["event"])}, req, state}
+    {:reply, {:text, handle_event(json["event"], json, req)}, req, state}
   end
 
   def websocket_handle(_data, req, state) do
@@ -34,12 +31,12 @@ defmodule WebsocketHandler do
     :ok
   end
 
-  defp handle_event("pusher:ping") do
+  defp handle_event("pusher:ping", _json, _req) do
     {:ok, res} = JSX.encode(%{ "event" => "pusher:pong", "data" => %{}})
     res
   end
 
-  defp handle_event("pusher:subscribe") do
-    :gproc.reg({ :p, :l, { :app, :channel }})
+  defp handle_event("pusher:subscribe", json, req) do
+    Puxir.Subscriber.subscribe(json, req)
   end
 end
