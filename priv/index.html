@@ -5,6 +5,8 @@
   </head>
   <body>
     <script src="http://js.pusher.com/2.2/pusher.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+
     <script type="text/javascript">
       Pusher.host    = "localhost";
       Pusher.ws_port = "4000";
@@ -14,15 +16,39 @@
       Pusher.sockjs_http_port = '4000';
       Pusher.disableStats = true;
       Pusher.log = function(data) {
-        console.log('\t\t', data);
+        console.log('\t\tlog: ', data);
       };
 
       var pusher = new Pusher('key1');
+
+      pusher.connection.bind('connected', function() {
+        $('#init > span').text('OK');
+      });
+
+      pusher.connection.bind('disconnected', function() {
+        $('#disconnect > span').text('OK');
+      });
       // var pusher = new Pusher('9420a8ef0031a6153350', {encripted: false})
       // pusher.bind('pusher:error', function(data) { console.log(data.to_json) })
-      // var myChannel = pusher.subscribe('MY_CHANNEL');
-      // myChannel.bind('an_event', function(data) { console.log(data) })
+      var myChannel = pusher.subscribe('MY_CHANNEL');
+      myChannel.bind('pusher:subscription_succeeded', function(data) {
+        $('#public >.result').text('OK');
+      })
+
+      // pusher.disconnect();
     </script>
+
+    <div id="init">
+      Connection: <span class="result"></span>
+    </div>
+
+    <div id="public">
+      Public channel: <span class="result"></span>
+    </div>
+
+    <div id="disconnect">
+      Disconnect: <span class="result"></span>
+    </div>
 
 
 
