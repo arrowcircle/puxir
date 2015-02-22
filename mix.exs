@@ -14,7 +14,7 @@ defmodule Puxir.Mixfile do
   def application do
     dev_apps = Mix.env == :dev && [:reprise] || []
     [
-      applications: dev_apps ++ [:logger, :cowboy, :cpg],
+      applications: dev_apps ++ [:logger, :cowboy, :gproc],
       mod: {Puxir, []}
     ]
   end
@@ -32,9 +32,9 @@ defmodule Puxir.Mixfile do
     [
       { :cowboy, "~> 1.0.0" },
       { :exjsx, "~> 3.1.0" },
-      { :cpg, "~> 1.4.0" },
+      { :gproc, "~> 0.3.1" },
       { :uuid, "~> 0.1.5" },
-      {:reprise, "~> 0.3.0", only: :dev}
+      { :reprise, "~> 0.3.0", only: :dev }
     ]
   end
 end

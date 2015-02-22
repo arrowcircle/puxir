@@ -6,13 +6,14 @@ defmodule WebsocketHandler do
   end
 
   def websocket_init(_transport_name, req, _opts) do
-    { :ok, message } = JSX.encode(%{"event" => "pusher:connection_established", "data" => %{ "activity_timeout" => "12", "socket_id" => UUID.uuid4 }})
+    socket_id = UUID.uuid4
+    :gproc.reg({ :p, :l, { :app, :sockets, socket_id }})
+    { :ok, message } = JSX.encode(%{"event" => "pusher:connection_established", "data" => %{ "activity_timeout" => "12", "socket_id" => socket_id }})
     send self(), message
     {:ok, req, :undefined_state }
   end
 
   def websocket_handle({:text, content}, req, state) do
-    # Cpg.join(:groups_scope1, "Hello", self())
     { :ok, json } = JSX.decode(content)
     {:reply, {:text, handle_event(json["event"])}, req, state}
   end
@@ -22,7 +23,6 @@ defmodule WebsocketHandler do
   end
 
   def websocket_info({timeout, _ref, _foo}, req, state) do
-    IO.puts "== info"
     { :reply, {:text, "{}"}, req, state}
   end
 
@@ -37,5 +37,9 @@ defmodule WebsocketHandler do
   defp handle_event("pusher:ping") do
     {:ok, res} = JSX.encode(%{ "event" => "pusher:pong", "data" => %{}})
     res
+  end
+
+  defp handle_event("pusher:subscribe") do
+    :gproc.reg({ :p, :l, { :app, :channel }})
   end
 end
