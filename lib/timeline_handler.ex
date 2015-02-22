@@ -6,10 +6,11 @@ defmodule TimelineHandler do
   end
 
   def handle(req, state) do
+    {version, req} = :cowboy_req.binding(:version, req)
     {:ok, req} = :cowboy_req.reply(
       200,
       [{"content-type", "application/javascript"}],
-      "Pusher.JSONP.receive(1, null, {});",
+      version_request(version),
       req
     )
     {:ok, req, state}
@@ -17,5 +18,17 @@ defmodule TimelineHandler do
 
   def terminate(_reason, _req, _state) do
     :ok
+  end
+
+  def version_request("1") do
+    "Pusher.JSONP.receive(1, null, {});"
+  end
+
+  def version_request("v2") do
+    "Pusher.ScriptReceivers[1](null, {});"
+  end
+
+  def version_requires(_info) do
+    ""
   end
 end

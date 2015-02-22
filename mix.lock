@@ -1,3 +1,11 @@
 %{"cowboy": {:hex, :cowboy, "1.0.0"},
   "cowlib": {:hex, :cowlib, "1.0.1"},
-  "ranch": {:hex, :ranch, "1.0.0"}}
+  "cpg": {:hex, :cpg, "1.4.0"},
+  "exjsx": {:hex, :exjsx, "3.1.0"},
+  "jsx": {:hex, :jsx, "2.4.0"},
+  "quickrand": {:hex, :quickrand, "1.4.0"},
+  "ranch": {:hex, :ranch, "1.0.0"},
+  "reltool_util": {:hex, :reltool_util, "1.4.0"},
+  "reprise": {:hex, :reprise, "0.3.0"},
+  "trie": {:hex, :trie, "1.4.0"},
+  "uuid": {:hex, :uuid, "0.1.5"}}

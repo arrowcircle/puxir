@@ -9,6 +9,7 @@
       Pusher.host    = "localhost";
       Pusher.ws_port = "4000";
       Pusher.stats_host = '127.0.0.1:4000';
+      Pusher.stats_port = "4000";
       Pusher.sockjs_host = 'localhost';
       Pusher.sockjs_http_port = '4000';
       Pusher.disableStats = true;
@@ -17,9 +18,13 @@
       };
 
       var pusher = new Pusher('key1');
-      pusher.bind('pusher:error', function(data) { console.log(data.to_json) })
-      var myChannel = pusher.subscribe('MY_CHANNEL');
-      myChannel.bind('an_event', function(data) { console.log(data) })
+      // var pusher = new Pusher('9420a8ef0031a6153350', {encripted: false})
+      // pusher.bind('pusher:error', function(data) { console.log(data.to_json) })
+      // var myChannel = pusher.subscribe('MY_CHANNEL');
+      // myChannel.bind('an_event', function(data) { console.log(data) })
     </script>
+
+
+
   </body>
 </html>

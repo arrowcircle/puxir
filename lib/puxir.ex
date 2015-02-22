@@ -5,8 +5,8 @@ defmodule Puxir do
     dispatch = :cowboy_router.compile([
       {:_, [
         {"/", :cowboy_static, {:priv_file, :puxir, "index.html"}},
-        {"/timeline/:id", TimelineHandler, []},
-        {"/websocket", WebsocketHandler, []},
+        {"/timeline/:version[/:p1/:p2]", TimelineHandler, []},
+        {"/app/:key", WebsocketHandler, []},
         ]
       }
     ])
