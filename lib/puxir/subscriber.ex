@@ -31,6 +31,9 @@ defmodule Puxir.Subscriber do
   Public method to handle subsriptions to public, private and presence channels
   """
   def subscribe(content, req) do
-    register({ :app, :channel })
+    channel = content["data"]["channel"]
+    register({ :app, channel })
+    { :ok, message } = JSX.encode(%{"event" => "pusher:subscription_succeeded", "channel" => channel, "data" => %{} })
+    message
   end
 end
